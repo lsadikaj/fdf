@@ -6,12 +6,36 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:36:34 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/01/29 18:57:39 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/01/31 16:33:42 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fdf.h"
 
+void	put_pixel(t_fdf *fdf, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x >= 0 && x < 1920 && y >= 0 && y < 1080)
+	{
+		dst = fdf->img.addr + (y * fdf->img.line_len + x * (fdf->img.bpp / 8));
+		*(unsigned int *)dst = color;
+	}
+}
+
+void	get_scaled_point(t_fdf *fdf, t_point *p, int x, int y)
+{
+	float	scale;
+	int		center_x;
+	int		center_y;
+
+	scale = fdf->zoom;
+	center_x = 1920 / 2;
+	center_y = 1080 / 2;
+	p->x = (x - fdf->width / 2) * scale + fdf->offset_x + center_x;
+	p->y = (y - fdf->height / 2) * scale - (p->z * (scale / 5)) + fdf->offset_y + center_y;
+	apply_isometric(&p->x, &p->y, p->z * fdf->altitude);
+}
 
 void	draw_line(t_fdf *fdf, t_point p1, t_point p2)
 {
@@ -35,32 +59,11 @@ void	draw_line(t_fdf *fdf, t_point p1, t_point p2)
 	y = p1.y;
 	while (steps--)
 	{
-		mlx_pixel_put(fdf->mlx, fdf->win, x, y, p1.color);
+		if (x >= 0 && x < 1920 && y >= 0 && y < 1080)
+			put_pixel(fdf, x, y, p1.color);
 		x += x_inc;
 		y += y_inc;
 	}
-}
-
-void	get_scaled_point(t_fdf *fdf, t_point *p, int x, int y)
-{
-	float	scale_x;
-	float	scale_y;
-	float	scale;
-	int		offset_x;
-	int		offset_y;
-
-	scale_x = fdf->win_width / (float)fdf->width;
-	scale_y = fdf->win_height / (float)fdf->height;
-	if (scale_x < scale_y)
-		scale = scale_x;
-	else
-		scale = scale_y;
-	if (scale < 1)
-		scale = 1;
-	offset_x = (fdf->win_width - (fdf->width * scale)) / 2;
-	offset_y = (fdf->win_height - (fdf->height * scale)) / 2;
-	p->x = x * scale + offset_x;
-	p->y = y * scale -(p->z * (scale / 5)) + offset_y;
 }
 
 void	draw_horizontal(t_fdf *fdf, int x, int y)

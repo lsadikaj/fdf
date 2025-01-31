@@ -6,7 +6,7 @@
 #    By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 11:39:04 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/01/29 16:48:49 by lsadikaj         ###   ########.fr        #
+#    Updated: 2025/01/31 15:04:39 by lsadikaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LIBMLX_DIR = libmlx
 LIBFT_DIR = libft
 
 SRCS = $(SRC_DIR)/fdf.c $(SRC_DIR)/parse_map.c $(SRC_DIR)/parse_utils.c \
-	$(SRC_DIR)/draw_map.c $(SRC_DIR)/draw_utils.c
+	$(SRC_DIR)/draw_map.c $(SRC_DIR)/draw_utils.c $(SRC_DIR)/event.c
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc

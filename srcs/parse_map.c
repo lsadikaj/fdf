@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:29:37 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/01/29 15:48:11 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:35:36 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ static void	fill_map(int **map, char *filename, int width)
 		col = 0;
 		while (col < width)
 		{
+			//ft_printf("x: %d, y: %d, z:= %d\n", col, row, ft_atoi(numbers[col]));
 			map[row][col] = ft_atoi(numbers[col]);
 			free(numbers[col]);
 			col++;
