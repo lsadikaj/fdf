@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 11:42:30 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/01/31 16:30:40 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/04 16:24:03 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/get_next_line/get_next_line.h"
 
+# define NUM_PALETTES 3
 
 typedef struct s_img
 {
@@ -58,6 +59,7 @@ typedef struct s_fdf
 	float	angle_x;
 	float	angle_y;
 	int		hide_lines;
+	int		color_palette;
 }	t_fdf;
 
 // Parsing
@@ -80,5 +82,10 @@ void	handle_movement(int keysym, t_fdf *fdf);
 void	handle_transform(int keysym, t_fdf *fdf);
 void	handle_rotation(int keysym, t_fdf *fdf);
 void	handle_altitude(int keysym, t_fdf *fdf);
+
+// Colors
+int		get_color(int z, t_fdf *fdf);
+int		gradient_color(t_point p1, t_point p2, float percentage);
+void	handle_color_palette(int keysym, t_fdf *fdf);
 
 #endif

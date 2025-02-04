@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 11:47:03 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/01/31 16:29:36 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/04 15:48:47 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	key_hook(int keycode, void *param)
 	handle_transform(keycode, fdf);
 	handle_rotation(keycode, fdf);
 	handle_altitude(keycode, fdf);
+	handle_color_palette(keycode, fdf);
 	mlx_destroy_image(fdf->mlx, fdf->img.img);
 	fdf->img.img = mlx_new_image(fdf->mlx, 1920, 1080);
 	fdf->img.addr = mlx_get_data_addr(fdf->img.img, &fdf->img.bpp, &fdf->img.line_len, &fdf->img.endian);
@@ -52,6 +53,7 @@ static void	init_fdf(t_fdf *fdf)
 	fdf->offset_x = 0;
 	fdf->offset_y = 0;
 	fdf->hide_lines = 0;
+	fdf->color_palette = 0;
 }
 
 int	main(int argc, char **argv)
