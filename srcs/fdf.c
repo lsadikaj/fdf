@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 11:47:03 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/04 15:48:47 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/05 14:32:57 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ static void	init_fdf(t_fdf *fdf)
 	fdf->altitude = 1;
 	fdf->angle_x = 0;
 	fdf->angle_y = 0;
-	fdf->offset_x = 0;
-	fdf->offset_y = 0;
+	fdf->offset_x = 140;
+	fdf->offset_y = -549;
 	fdf->hide_lines = 0;
 	fdf->color_palette = 0;
 }
