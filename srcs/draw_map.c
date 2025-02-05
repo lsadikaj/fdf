@@ -6,11 +6,36 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:16:37 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/04 16:41:18 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/05 16:59:52 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fdf.h"
+
+void	draw_banner(t_fdf *fdf)
+{
+	int	y_offset;
+
+	y_offset = 50; // Début de l'affichage du texte
+
+	mlx_string_put(fdf->mlx, fdf->win, 10, 50, 0xFFFFFF, "     FDF Project     ");
+	y_offset += 20;
+	mlx_string_put(fdf->mlx, fdf->win, 10, 70, 0xFFFFFF, "--------------------------");
+	y_offset += 20;
+	mlx_string_put(fdf->mlx, fdf->win, 10, 90, 0xFFFFFF, " Zoom: +/- ");
+	y_offset += 20;
+	mlx_string_put(fdf->mlx, fdf->win, 10, 110, 0xFFFFFF, " Rotate: W/A/S/D ");
+	y_offset += 20;
+	mlx_string_put(fdf->mlx, fdf->win, 10, 130, 0xFFFFFF, " Move: Arrows");
+	y_offset += 20;
+	mlx_string_put(fdf->mlx, fdf->win, 10, 150, 0xFFFFFF, " Altitude: PgUp/PgDn");
+	y_offset += 20;
+	mlx_string_put(fdf->mlx, fdf->win, 10, 170, 0xFFFFFF, " Color: Space");
+	y_offset += 20;
+	mlx_string_put(fdf->mlx, fdf->win, 10, 190, 0xFFFFFF, " Hide lines: H ");
+	y_offset += 20;
+	mlx_string_put(fdf->mlx, fdf->win, 10, 210, 0xFFFFFF, "---------------------------");
+}
 
 void	apply_isometric(int *x, int *y, int z)
 {
@@ -25,11 +50,12 @@ void	apply_isometric(int *x, int *y, int z)
 
 void	draw_map(t_fdf *fdf)
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
 	t_point	p;
 
-	mlx_clear_window(fdf->mlx, fdf->win);
+	mlx_clear_window(fdf->mlx, fdf->win); // Efface la fenêtre avant de redessiner
+
 	y = 0;
 	while (y < fdf->height)
 	{
@@ -51,5 +77,9 @@ void	draw_map(t_fdf *fdf)
 		}
 		y++;
 	}
+	// D'abord on met l'image sur la fenêtre
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img.img, 0, 0);
+
+	// Ensuite, on affiche le texte (sinon il est effacé)
+	draw_banner(fdf);
 }

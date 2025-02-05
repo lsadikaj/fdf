@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:36:34 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/04 16:35:53 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/05 16:40:16 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,35 +23,35 @@ void	put_pixel(t_fdf *fdf, int x, int y, int color)
 	}
 }
 
-void	get_scaled_point(t_fdf *fdf, t_point *p, int x, int y)
+void get_scaled_point(t_fdf *fdf, t_point *p, int x, int y)
 {
-	float	scale;
-	int		center_x;
-	int		center_y;
-	float	prev[3];
+    float scale;
+    int center_x;
+    int center_y;
+    float prev[3];
 
-	scale = fdf->zoom;
-	center_x = 1920 / 2;
-	center_y = 1080 / 2;
-	p->x = (x - fdf->width / 2) * scale;
-	p->y = (y - fdf->height / 2) * scale;
-	p->z *= (scale / 5) * fdf->altitude;
+    scale = fdf->zoom;
+    center_x = (1920 - 200) / 2;
+    center_y = 1080 / 2;
+    p->x = (x - fdf->width / 2) * scale;
+    p->y = (y - fdf->height / 2) * scale;
+    p->z *= (scale / 5) * fdf->altitude;
 
-	// Rotation X (W/S)
-	prev[1] = p->y;
-	prev[2] = p->z;
-	p->y = prev[1] * cos(fdf->angle_x) - prev[2] * sin(fdf->angle_x);
-	p->z = prev[1] * sin(fdf->angle_x) + prev[2] * cos(fdf->angle_x);
+    // Rotation X (W/S)
+    prev[1] = p->y;
+    prev[2] = p->z;
+    p->y = prev[1] * cos(fdf->angle_x) - prev[2] * sin(fdf->angle_x);
+    p->z = prev[1] * sin(fdf->angle_x) + prev[2] * cos(fdf->angle_x);
 
-	// Rotation Y (A/D)
-	prev[0] = p->x;
-	prev[2] = p->z;
-	p->x = prev[0] * cos(fdf->angle_y) + prev[2] * sin(fdf->angle_y);
-	p->z = -prev[0] * sin(fdf->angle_y) + prev[2] * cos(fdf->angle_y);
+    // Rotation Y (A/D)
+    prev[0] = p->x;
+    prev[2] = p->z;
+    p->x = prev[0] * cos(fdf->angle_y) + prev[2] * sin(fdf->angle_y);
+    p->z = -prev[0] * sin(fdf->angle_y) + prev[2] * cos(fdf->angle_y);
 
-	p->x += fdf->offset_x + center_x;
-	p->y += fdf->offset_y + center_y;
-	apply_isometric(&p->x, &p->y, p->z);
+    p->x += fdf->offset_x + center_x + 200;
+    p->y += fdf->offset_y + center_y;
+    apply_isometric(&p->x, &p->y, p->z);
 }
 
 void	draw_line(t_fdf *fdf, t_point p1, t_point p2)

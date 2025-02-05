@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 11:42:30 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/04 16:24:03 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/05 16:50:19 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int		count_words(char *line, char delimiter);
 // Drawing
 void	apply_isometric(int *x, int *y, int z);
 void	draw_map(t_fdf *fdf);
+void	draw_banner(t_fdf *fdf);
 void	draw_line(t_fdf *fdf, t_point p1, t_point p2);
 void	put_pixel(t_fdf *fdf, int x, int y, int color);
 void	get_scaled_point(t_fdf *fdf, t_point *p, int x, int y);
