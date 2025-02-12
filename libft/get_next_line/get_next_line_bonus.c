@@ -5,128 +5,121 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/11 13:37:53 by lsadikaj          #+#    #+#             */
-/*   Updated: 2024/11/19 11:42:00 by lsadikaj         ###   ########.fr       */
+/*   Created: 2024/10/31 03:46:34 by anpayot           #+#    #+#             */
+/*   Updated: 2025/02/12 10:28:59 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-static t_fd_list	*get_fd_node(t_fd_list **head, int fd)
+static char	*get_line_from_buffer(char *buffer)
 {
-	t_fd_list	*temp;
-
-	temp = *head;
-	while (temp)
-	{
-		if (temp->fd == fd)
-			return (temp);
-		temp = temp->next;
-	}
-	temp = (t_fd_list *)malloc(sizeof(t_fd_list));
-	if (!temp)
-		return (NULL);
-	temp->fd = fd;
-	temp->left_c = NULL;
-	temp->next = *head;
-	*head = temp;
-	return (temp);
-}
-
-static void	remove_fd_node(t_fd_list **head, int fd)
-{
-	t_fd_list	*temp;
-	t_fd_list	*prev;
-
-	temp = *head;
-	prev = NULL;
-	while (temp)
-	{
-		if (temp->fd == fd)
-		{
-			if (prev)
-				prev->next = temp->next;
-			else
-				*head = temp->next;
-			free(temp->left_c);
-			free(temp);
-			return ;
-		}
-		prev = temp;
-		temp = temp->next;
-	}
-}
-
-static char	*extract_line(char **left_c)
-{
-	size_t	i;
 	char	*line;
-	char	*new_left_c;
+	char	*ptr;
+	char	*buf_ptr;
+	size_t	len;
 
-	if (!*left_c || **left_c == '\0')
+	if (!buffer || !*buffer)
 		return (NULL);
-	i = 0;
-	while ((*left_c)[i] && (*left_c)[i] != '\n')
-		i++;
-	if ((*left_c)[i] == '\n')
-		i++;
-	line = ft_substr(*left_c, 0, i);
+	buf_ptr = buffer;
+	while (*buf_ptr && *buf_ptr != '\n')
+		buf_ptr++;
+	len = buf_ptr - buffer;
+	if (*buf_ptr == '\n')
+		len++;
+	line = malloc(len + 1);
 	if (!line)
 		return (NULL);
-	new_left_c = ft_strdup(*left_c + i);
-	free(*left_c);
-	*left_c = new_left_c;
+	ptr = line;
+	while (buffer != buf_ptr)
+		*ptr++ = *buffer++;
+	if (*buffer == '\n')
+		*ptr++ = '\n';
+	*ptr = '\0';
 	return (line);
 }
 
-static int	read_and_store(int fd, char **left_c)
+static char	*create_new_buffer(char *buffer, char *newline_pos)
 {
-	char	buffer[BUFFER_SIZE + 1];
-	int		bytes_read;
-	char	*temp;
+	char	*new_buffer;
+	char	*ptr;
+	size_t	len;
 
-	while (!ft_strchr(*left_c, '\n'))
+	if (!newline_pos || !*(newline_pos + 1))
+		return (free_null(buffer));
+	len = gnl_strlen(newline_pos + 1);
+	new_buffer = malloc(len + 1);
+	if (!new_buffer)
+		return (free_null(buffer));
+	ptr = new_buffer;
+	newline_pos++;
+	while (*newline_pos)
+		*ptr++ = *newline_pos++;
+	*ptr = '\0';
+	free(buffer);
+	return (new_buffer);
+}
+
+static char	*update_buffer(char *buffer)
+{
+	char	*ptr;
+
+	if (!buffer)
+		return (NULL);
+	ptr = buffer;
+	while (*ptr && *ptr != '\n')
+		ptr++;
+	if (!*ptr)
+		return (free_null(buffer));
+	return (create_new_buffer(buffer, ptr));
+}
+
+static char	*read_buffer(int fd, char *buffer)
+{
+	char	*temp;
+	int		read_bytes;
+
+	temp = malloc(BUFFER_SIZE + 1);
+	if (!temp)
+		return (free_null(buffer));
+	read_bytes = 1;
+	while (!gnl_strchr(buffer, '\n') && read_bytes > 0)
 	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if (bytes_read == 0)
-			return (0);
-		if (bytes_read < 0)
-			return (-1);
-		buffer[bytes_read] = '\0';
-		temp = *left_c;
-		*left_c = ft_strjoin(temp, buffer);
-		free(temp);
-		if (!*left_c)
-			return (-1);
+		read_bytes = read(fd, temp, BUFFER_SIZE);
+		if (read_bytes == -1)
+		{
+			free(temp);
+			return (free_null(buffer));
+		}
+		temp[read_bytes] = '\0';
+		buffer = gnl_strjoin(buffer, temp);
+		if (!buffer)
+		{
+			free(temp);
+			return (NULL);
+		}
 	}
-	return (1);
+	free(temp);
+	return (buffer);
 }
 
 char	*get_next_line(int fd)
 {
-	static t_fd_list	*head;
-	t_fd_list			*fd_node;
-	char				*line;
-	int					status;
+	static char	*buffer[MAX_FILES];
+	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= MAX_FILES || BUFFER_SIZE <= 0)
 		return (NULL);
-	fd_node = get_fd_node(&head, fd);
-	if (!fd_node)
+	buffer[fd] = read_buffer(fd, buffer[fd]);
+	if (!buffer[fd])
 		return (NULL);
-	status = read_and_store(fd, &(fd_node->left_c));
-	if (status == -1 || (status == 0 && (!fd_node->left_c
-				|| fd_node->left_c[0] == '\0')))
+	line = get_line_from_buffer(buffer[fd]);
+	if (!line)
 	{
-		remove_fd_node(&head, fd);
+		free_null(buffer[fd]);
+		buffer[fd] = NULL;
 		return (NULL);
 	}
-	line = extract_line(&(fd_node->left_c));
-	if (!line || *line == '\0')
-	{
-		free(line);
-		remove_fd_node(&head, fd);
-		return (NULL);
-	}
+	buffer[fd] = update_buffer(buffer[fd]);
 	return (line);
 }

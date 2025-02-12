@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 11:47:03 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/05 14:32:57 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:35:53 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,39 @@ int	close_window(void *param)
 	return (0);
 }
 
-int	key_hook(int keycode, void *param)
+int key_hook(int keycode, void *param)
 {
-	t_fdf	*fdf;
+	t_fdf *fdf;
 
 	fdf = (t_fdf *)param;
-	ft_printf("Key released (keycode): %d\n", keycode);
-
+	ft_printf("Key pressed (keycode): %d\n", keycode);
 	if (keycode == XK_Escape)
 		close_window(fdf);
 	handle_movement(keycode, fdf);
 	handle_transform(keycode, fdf);
 	handle_rotation(keycode, fdf);
 	handle_altitude(keycode, fdf);
+	handle_projection(keycode, fdf);
 	handle_color_palette(keycode, fdf);
-	mlx_destroy_image(fdf->mlx, fdf->img.img);
-	fdf->img.img = mlx_new_image(fdf->mlx, 1920, 1080);
-	fdf->img.addr = mlx_get_data_addr(fdf->img.img, &fdf->img.bpp, &fdf->img.line_len, &fdf->img.endian);
-	draw_map(fdf);
+	fdf->needs_redraw = 1;
+	return (0);
+}
+
+int	render_frame(void *param)
+{
+	t_fdf	*fdf;
+
+	fdf = (t_fdf *)param;
+	if (fdf->needs_redraw)
+	{
+		ft_printf("Redrawing with palette %d\n", fdf->color_palette);
+		mlx_destroy_image(fdf->mlx, fdf->img.img);
+		fdf->img.img = mlx_new_image(fdf->mlx, 1920, 1080);
+		fdf->img.addr = mlx_get_data_addr(fdf->img.img,
+				&fdf->img.bpp, &fdf->img.line_len, &fdf->img.endian);
+		draw_map(fdf);
+		fdf->needs_redraw = 0;
+	}
 	return (0);
 }
 
@@ -54,6 +69,8 @@ static void	init_fdf(t_fdf *fdf)
 	fdf->offset_y = -549;
 	fdf->hide_lines = 0;
 	fdf->color_palette = 0;
+	fdf->projection_mode = PROJ_ISO;
+	fdf->needs_redraw = 1;
 }
 
 int	main(int argc, char **argv)
@@ -73,6 +90,7 @@ int	main(int argc, char **argv)
 	init_fdf(&fdf);
 	mlx_hook(fdf.win, 2, 1L << 0, key_hook, (void *)&fdf);
 	mlx_hook(fdf.win, 17, 0, close_window, (void *)&fdf);
+	mlx_loop_hook(fdf.mlx, render_frame, (void *)&fdf);
 	parse_map(argv[1], &fdf);
 	draw_map(&fdf);
 	mlx_loop(fdf.mlx);

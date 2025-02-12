@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:29:37 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/01/31 15:35:36 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:33:48 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,50 +51,22 @@ static int	get_width(char *filename)
 	return (width);
 }
 
-static int	**allocate_map(int width, int height)
+static void	fill_map(int **map, int **colors, char *filename, int width)
 {
-	int	**map;
-	int	i;
-
-	map = (int **)malloc(sizeof(int *) * height);
-	if (!map)
-		return (NULL);
-	i = 0;
-	while (i < height)
-	{
-		map[i] = (int *)malloc(sizeof(int) * width);
-		if (!map[i])
-			return (NULL);
-		i++;
-	}
-	return (map);
-}
-
-static void	fill_map(int **map, char *filename, int width)
-{
-	int 	fd;
+	int		fd;
 	int		row;
-	int		col;
 	char	*line;
-	char	**numbers;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return ;
 	row = 0;
-	while ((line = get_next_line(fd)) && row < width)
+	line = get_next_line(fd);
+	while (line && row < width)
 	{
-		numbers = ft_split(line, ' ');
-		col = 0;
-		while (col < width)
-		{
-			//ft_printf("x: %d, y: %d, z:= %d\n", col, row, ft_atoi(numbers[col]));
-			map[row][col] = ft_atoi(numbers[col]);
-			free(numbers[col]);
-			col++;
-		}
-		free(numbers);
+		fill_map_row(map, colors, line, row, width);
 		free(line);
+		line = get_next_line(fd);
 		row++;
 	}
 	close(fd);
@@ -109,7 +81,12 @@ void	parse_map(char *filename, t_fdf *fdf)
 	if (fdf->width <= 0)
 		return ;
 	fdf->map = allocate_map(fdf->width, fdf->height);
-	if (!fdf->map)
+	fdf->colors = allocate_colors(fdf->width, fdf->height);
+	if (!fdf->map || !fdf->colors)
+	{
+		free_map(fdf->map, fdf->height);
+		free_map(fdf->colors, fdf->height);
 		return ;
-	fill_map(fdf->map, filename, fdf->width);
+	}
+	fill_map(fdf->map, fdf->colors, filename, fdf->width);
 }

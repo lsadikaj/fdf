@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 14:30:19 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/04 16:37:24 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/12 13:35:19 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,17 @@ int	gradient_color(t_point p1, t_point p2, float percentage)
 	return ((red << 16) | (green << 8) | blue);
 }
 
-int	get_color(int z, t_fdf *fdf)
+int	get_color(int x, int y, int z, t_fdf *fdf)
 {
 	static int	palettes[NUM_PALETTES][3] = {
 		{0xFFFFFF, 0xFFFFFF, 0xFFFFFF},
 		{0xFFFFFF, 0xFFA500, 0x0000FF},
 		{0xFFFFFF, 0x00FF00, 0xFF0000}
 	};
-	int			*selected_palette;
-
+	int	*selected_palette;
+	
+	if (fdf->colors[y][x] != -1)
+		return (fdf->colors[y][x]);
 	selected_palette = palettes[fdf->color_palette];
 	if (z > 0)
 		return (selected_palette[1]);
