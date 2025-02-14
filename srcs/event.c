@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:49:11 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/12 13:43:33 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:16:59 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,15 @@ void	handle_rotation(int keysym, t_fdf *fdf)
 
 void	handle_altitude(int keysym, t_fdf *fdf)
 {
+	float	step;
+
+	step = 0.1;
+	if (fdf->projection_mode == PROJ_SPHERE)
+		step = 0.02;
 	if (keysym == XK_Page_Up)
-		fdf->altitude += 0.02;
+		fdf->altitude += step;
 	else if (keysym == XK_Page_Down)
-		fdf->altitude -= 0.02;
+		fdf->altitude -= step;
 	fdf->needs_redraw = 1;
 }
 
