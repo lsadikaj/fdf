@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:07:30 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/11 14:51:53 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:28:21 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,15 +93,22 @@ int	**allocate_colors(int width, int height)
 void	parse_point(char *str, int *z, int *color)
 {
 	char	**split;
+	int		i;
 
 	split = ft_split(str, ',');
+	if (!split)
+		return ;
 	*z = ft_atoi(split[0]);
 	if (split[1])
 		*color = ft_atoi_base(split[1], "0123456789ABCDEF");
 	else
 		*color = -1;
-	free(split[0]);
-	free(split[1]);
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		i++;
+	}
 	free(split);
 }
 
@@ -114,9 +121,14 @@ void	fill_map_row(int **map, int **colors, char *line, int row, int width)
 	if (!numbers)
 		return ;
 	col = 0;
-	while (col < width)
+	while (col < width && numbers[col])
 	{
 		parse_point(numbers[col], &map[row][col], &colors[row][col]);
+		free(numbers[col]);
+		col++;
+	}
+	while (numbers[col])
+	{
 		free(numbers[col]);
 		col++;
 	}
