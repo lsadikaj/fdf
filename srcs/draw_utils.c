@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:36:34 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/12 13:44:59 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/18 11:58:15 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	get_scaled_point(t_fdf *fdf, t_point *p, int x, int y)
 	p->x = (x - fdf->width / 2) * scale;
 	p->y = (y - fdf->height / 2) * scale;
 	p->z *= (scale / 5) * fdf->altitude;
-
 	if (fdf->projection_mode == PROJ_SPHERE)
 	{
 		apply_spherical(fdf, p, x, y);
@@ -48,36 +47,6 @@ void	get_scaled_point(t_fdf *fdf, t_point *p, int x, int y)
 	}
 	p->x += fdf->offset_x + center_x + 200;
 	p->y += fdf->offset_y + center_y;
-}
-
-void	draw_line(t_fdf *fdf, t_point p1, t_point p2)
-{
-	int		dx;
-	int		dy;
-	int		steps;
-	float	x_inc;
-	float	y_inc;
-	float	percentage;
-	float	x;
-	float	y;
-
-	dx = p2.x - p1.x;
-	dy = p2.y - p1.y;
-	if (abs(dx) > abs(dy))
-		steps = abs(dx);
-	else
-		steps = abs(dy);
-	x_inc = dx / (float)steps;
-	y_inc = dy / (float)steps;
-	x = p1.x;
-	y = p1.y;
-	while (steps--)
-	{
-		put_pixel(fdf, x, y, gradient_color(p1, p2, percentage));
-		x += x_inc;
-		y += y_inc;
-		percentage += (1.0 / steps);
-	}
 }
 
 void	draw_horizontal(t_fdf *fdf, int x, int y)

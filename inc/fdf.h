@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 11:42:30 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/12 13:32:17 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/18 12:08:33 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,19 @@ typedef struct s_point
 	int	color;
 }	t_point;
 
+typedef struct s_bres
+{
+	int	dx;
+	int	dy;
+	int	sx;
+	int	sy;
+	int	err;
+	int	max_val;
+	int	x;
+	int	y;
+	int	i;
+}	t_bres;
+
 typedef struct s_fdf
 {
 	void			*mlx;
@@ -71,7 +84,7 @@ typedef struct s_fdf
 	t_projection	projection_mode;
 }	t_fdf;
 
-// Parsing
+/* parse_map.c, parse_utils.c, etc. (unchanged prototypes) */
 void	parse_map(char *filename, t_fdf *fdf);
 int		count_words(char *line, char delimiter);
 void	free_map(int **map, int allocated_rows);
@@ -81,20 +94,14 @@ int		ft_atoi_base(char *str, char *base);
 void	fill_map_row(int **map, int **colors, char *line, int row, int width);
 void	parse_point(char *str, int *z, int *color);
 
-// Drawing
+/* projection_utils.c, color.c, event.c, etc. (unchanged prototypes) */
 void	apply_isometric(int *x, int *y, int z);
 void	apply_spherical(t_fdf *fdf, t_point *p, int x, int y);
 void	apply_rotation(t_fdf *fdf, t_point *p);
 void	apply_projection(t_fdf *fdf, t_point *p, int x, int y);
-void	draw_map(t_fdf *fdf);
-void	draw_banner(t_fdf *fdf);
-void	draw_line(t_fdf *fdf, t_point p1, t_point p2);
-void	put_pixel(t_fdf *fdf, int x, int y, int color);
-void	get_scaled_point(t_fdf *fdf, t_point *p, int x, int y);
-void	draw_horizontal(t_fdf *fdf, int x, int y);
-void	draw_vertical(t_fdf *fdf, int x, int y);
-
-// Hooks
+int		get_color(int x, int y, int z, t_fdf *fdf);
+int		gradient_color(t_point p1, t_point p2, float percentage);
+void	handle_color_palette(int keysym, t_fdf *fdf);
 int		key_hook(int keycode, void *param);
 int		close_window(void *param);
 int		render_frame(void *param);
@@ -104,9 +111,13 @@ void	handle_rotation(int keysym, t_fdf *fdf);
 void	handle_altitude(int keysym, t_fdf *fdf);
 void	handle_projection(int keysym, t_fdf *fdf);
 
-// Colors
-int		get_color(int x, int y, int z, t_fdf *fdf);
-int		gradient_color(t_point p1, t_point p2, float percentage);
-void	handle_color_palette(int keysym, t_fdf *fdf);
+/* draw_map.c, draw_utils.c (new/updated prototypes) */
+void	draw_map(t_fdf *fdf);
+void	draw_banner(t_fdf *fdf);
+void	draw_line(t_fdf *fdf, t_point p1, t_point p2);
+void	put_pixel(t_fdf *fdf, int x, int y, int color);
+void	get_scaled_point(t_fdf *fdf, t_point *p, int x, int y);
+void	draw_horizontal(t_fdf *fdf, int x, int y);
+void	draw_vertical(t_fdf *fdf, int x, int y);
 
 #endif

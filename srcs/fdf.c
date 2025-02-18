@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 11:47:03 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/14 13:24:33 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/18 12:30:09 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	close_window(void *param)
 	return (0);
 }
 
-int key_hook(int keycode, void *param)
+int	key_hook(int keycode, void *param)
 {
-	t_fdf *fdf;
+	t_fdf	*fdf;
 
 	fdf = (t_fdf *)param;
 	ft_printf("Key pressed (keycode): %d\n", keycode);
