@@ -6,7 +6,7 @@
 #    By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 11:39:04 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/02/18 12:39:18 by lsadikaj         ###   ########.fr        #
+#    Updated: 2025/02/19 14:14:40 by lsadikaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ LIBFT_DIR = libft
 SRCS = $(SRC_DIR)/fdf.c $(SRC_DIR)/parse_map.c $(SRC_DIR)/parse_utils.c \
 	$(SRC_DIR)/draw_map.c $(SRC_DIR)/draw_utils.c $(SRC_DIR)/event.c \
 	$(SRC_DIR)/color.c $(SRC_DIR)/convert_utils.c \
-	$(SRC_DIR)/projection.c $(SRC_DIR)/projection_utils.c
+	$(SRC_DIR)/projection.c $(SRC_DIR)/projection_utils.c \
+	$(SRC_DIR)/draw_banner.c
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc

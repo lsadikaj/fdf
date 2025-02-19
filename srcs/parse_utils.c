@@ -6,30 +6,11 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:07:30 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/18 18:28:21 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:16:58 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fdf.h"
-
-int	count_words(char *line, char delimiter)
-{
-	int	count;
-	int	i;
-
-	count = 0;
-	i = 0;
-	while (line[i])
-	{
-		while (line[i] == delimiter)
-			i++;
-		if (line[i] != '\0')
-			count++;
-		while (line[i] != delimiter && line[i] != '\0')
-			i++;
-	}
-	return (count);
-}
 
 void	free_map(int **map, int allocated_rows)
 {

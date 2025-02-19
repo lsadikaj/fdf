@@ -6,14 +6,11 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:14:08 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/18 12:31:45 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:10:07 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fdf.h"
-
-#define DEFAULT_ALTITUDE_SPHERE 0.2
-#define DEFAULT_ZOOM_SPHERE 300
 
 void	handle_projection(int keysym, t_fdf *fdf)
 {

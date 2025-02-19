@@ -6,34 +6,11 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:16:37 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/18 12:28:43 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:15:05 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fdf.h"
-
-static void	draw_banner_line(t_fdf *fdf, int *y, char *text)
-{
-	mlx_string_put(fdf->mlx, fdf->win, 40, *y, 0xFFFFFF, text);
-	*y += 30;
-}
-
-void	draw_banner(t_fdf *fdf)
-{
-	int	y;
-
-	y = 50;
-	draw_banner_line(fdf, &y, "    FDF Project   ");
-	draw_banner_line(fdf, &y, "-------------------");
-	draw_banner_line(fdf, &y, " Zoom: +/- ");
-	draw_banner_line(fdf, &y, " Rotate: W/A/S/D ");
-	draw_banner_line(fdf, &y, " Move: Arrows");
-	draw_banner_line(fdf, &y, " Altitude: PgUp/PgDn");
-	draw_banner_line(fdf, &y, " Color: Space");
-	draw_banner_line(fdf, &y, " Hide lines: H ");
-	draw_banner_line(fdf, &y, " Projection Mode: P ");
-	draw_banner_line(fdf, &y, "-------------------");
-}
 
 static void	init_bres(t_bres *br, t_point p1, t_point p2)
 {
@@ -91,11 +68,31 @@ void	draw_line(t_fdf *fdf, t_point p1, t_point p2)
 	}
 }
 
+static void	draw_point(t_fdf *fdf, int x, int y)
+{
+	t_point	p;
+
+	p.z = fdf->map[y][x];
+	p.color = get_color(x, y, p.z, fdf);
+	get_scaled_point(fdf, &p, x, y);
+	put_pixel(fdf, p.x, p.y, p.color);
+}
+
+static void	draw_connections(t_fdf *fdf, int x, int y)
+{
+	if (!fdf->hide_lines)
+	{
+		if (x < fdf->width - 1)
+			draw_horizontal(fdf, x, y);
+		if (y < fdf->height - 1)
+			draw_vertical(fdf, x, y);
+	}
+}
+
 void	draw_map(t_fdf *fdf)
 {
-	int		x;
-	int		y;
-	t_point	p;
+	int	x;
+	int	y;
 
 	mlx_clear_window(fdf->mlx, fdf->win);
 	y = 0;
@@ -104,17 +101,8 @@ void	draw_map(t_fdf *fdf)
 		x = 0;
 		while (x < fdf->width)
 		{
-			p.z = fdf->map[y][x];
-			p.color = get_color(x, y, p.z, fdf);
-			get_scaled_point(fdf, &p, x, y);
-			put_pixel(fdf, p.x, p.y, p.color);
-			if (!fdf->hide_lines)
-			{
-				if (x < fdf->width - 1)
-					draw_horizontal(fdf, x, y);
-				if (y < fdf->height - 1)
-					draw_vertical(fdf, x, y);
-			}
+			draw_point(fdf, x, y);
+			draw_connections(fdf, x, y);
 			x++;
 		}
 		y++;

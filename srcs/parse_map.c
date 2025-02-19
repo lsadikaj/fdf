@@ -6,11 +6,30 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:29:37 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/11 15:33:48 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:17:19 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/fdf.h"
+
+static int	count_words(char *line, char delimiter)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while (line[i])
+	{
+		while (line[i] == delimiter)
+			i++;
+		if (line[i] != '\0')
+			count++;
+		while (line[i] != delimiter && line[i] != '\0')
+			i++;
+	}
+	return (count);
+}
 
 static int	get_height(char *filename)
 {
