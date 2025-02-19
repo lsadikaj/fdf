@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 11:42:30 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/19 14:17:29 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:53:19 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,13 @@ typedef struct s_point
 	int	color;
 }	t_point;
 
+typedef struct s_map_data
+{
+	int	**map;
+	int	**colors;
+	int	width;
+}	t_map_data;
+
 typedef struct s_bres
 {
 	int	dx;
@@ -92,7 +99,7 @@ void	free_map(int **map, int allocated_rows);
 int		**allocate_map(int width, int height);
 int		**allocate_colors(int width, int height);
 int		ft_atoi_base(char *str, char *base);
-void	fill_map_row(int **map, int **colors, char *line, int row, int width);
+void	fill_map_row(t_map_data *data, char *line, int row);
 void	parse_point(char *str, int *z, int *color);
 
 // Projection

@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 15:07:30 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/19 14:16:58 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:52:46 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,22 @@ void	parse_point(char *str, int *z, int *color)
 	free(split);
 }
 
-void	fill_map_row(int **map, int **colors, char *line, int row, int width)
+void	fill_map_row(t_map_data *data, char *line, int row)
 {
 	char	**numbers;
 	int		col;
+	int		z;
+	int		color;
 
 	numbers = ft_split(line, ' ');
 	if (!numbers)
 		return ;
 	col = 0;
-	while (col < width && numbers[col])
+	while (numbers[col] && col < data->width)
 	{
-		parse_point(numbers[col], &map[row][col], &colors[row][col]);
+		parse_point(numbers[col], &z, &color);
+		data->map[row][col] = z;
+		data->colors[row][col] = color;
 		free(numbers[col]);
 		col++;
 	}

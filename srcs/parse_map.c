@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 14:29:37 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/19 14:17:19 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:51:27 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,22 @@ static int	get_width(char *filename)
 
 static void	fill_map(int **map, int **colors, char *filename, int width)
 {
-	int		fd;
-	int		row;
-	char	*line;
+	int			fd;
+	int			row;
+	char		*line;
+	t_map_data	data;
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return ;
+	data.map = map;
+	data.colors = colors;
+	data.width = width;
 	row = 0;
 	line = get_next_line(fd);
 	while (line && row < width)
 	{
-		fill_map_row(map, colors, line, row, width);
+		fill_map_row(&data, line, row);
 		free(line);
 		line = get_next_line(fd);
 		row++;
