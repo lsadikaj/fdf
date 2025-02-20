@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 11:47:03 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/18 12:30:09 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/20 12:39:52 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static void	init_fdf(t_fdf *fdf)
 	fdf->altitude = 1;
 	fdf->angle_x = 0;
 	fdf->angle_y = 0;
-	fdf->offset_x = 50;
-	fdf->offset_y = -20;
+	fdf->offset_x = 0;
+	fdf->offset_y = 0;
 	fdf->hide_lines = 0;
 	fdf->color_palette = 0;
 	fdf->projection_mode = PROJ_ISO;
@@ -82,7 +82,7 @@ int	main(int argc, char **argv)
 		write(2, "Usage: ./fdf <map.fdf>\n", 23);
 		return (1);
 	}
-	fdf.mlx = mlx_init();
+	fdf.mlx = mlx_init();  
 	fdf.win = mlx_new_window(fdf.mlx, 1920, 1080, "Fil de Fer");
 	fdf.img.img = mlx_new_image(fdf.mlx, 1920, 1080);
 	fdf.img.addr = mlx_get_data_addr(fdf.img.img, &fdf.img.bpp,
