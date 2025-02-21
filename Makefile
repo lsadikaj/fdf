@@ -6,7 +6,7 @@
 #    By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 11:39:04 by lsadikaj          #+#    #+#              #
-#    Updated: 2025/02/20 16:10:44 by lsadikaj         ###   ########.fr        #
+#    Updated: 2025/02/21 16:20:02 by lsadikaj         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRCS = $(SRC_DIR)/fdf.c $(SRC_DIR)/parse_map.c $(SRC_DIR)/parse_utils.c \
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -I$(INC_DIR) -I$(LIBMLX_DIR) -I$(LIBFT_DIR)
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR) -I$(LIBMLX_DIR) -I$(LIBFT_DIR)
 
 MLX = -L$(LIBMLX_DIR) -lmlx -lXext -lX11 -lm
 LIBFT = -L$(LIBFT_DIR) -lft

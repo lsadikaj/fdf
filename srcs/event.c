@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:49:11 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/18 12:29:30 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:18:44 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	handle_movement(int keysym, t_fdf *fdf)
 		fdf->offset_y -= 10;
 	else if (keysym == XK_Down)
 		fdf->offset_y += 10;
+	fdf->needs_redraw = 1;
 }
 
 void	handle_transform(int keysym, t_fdf *fdf)
@@ -32,6 +33,7 @@ void	handle_transform(int keysym, t_fdf *fdf)
 		fdf->zoom /= 1.1;
 	else if (keysym == XK_h)
 		fdf->hide_lines = !fdf->hide_lines;
+	fdf->needs_redraw = 1;
 }
 
 void	handle_rotation(int keysym, t_fdf *fdf)
