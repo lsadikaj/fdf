@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 11:47:03 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/21 16:25:20 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:46:32 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	key_hook(int keycode, void *param)
 
 	fdf = (t_fdf *)param;
 	ft_printf("Key pressed (keycode): %d\n", keycode);
-	if (keycode == XK_Escape)
+	if (keycode == KEY_ESC)
 		close_window(fdf);
 	handle_movement(keycode, fdf);
 	handle_transform(keycode, fdf);
@@ -50,7 +50,7 @@ int	render_frame(void *param)
 	{
 		ft_printf("Redrawing with palette %d\n", fdf->color_palette);
 		mlx_destroy_image(fdf->mlx, fdf->img.img);
-		fdf->img.img = mlx_new_image(fdf->mlx, 1920, 1080);
+		fdf->img.img = mlx_new_image(fdf->mlx, WIN_WIDTH, WIN_HEIGHT);
 		fdf->img.addr = mlx_get_data_addr(fdf->img.img,
 				&fdf->img.bpp, &fdf->img.line_len, &fdf->img.endian);
 		draw_map(fdf);
@@ -83,8 +83,8 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	fdf.mlx = mlx_init();
-	fdf.win = mlx_new_window(fdf.mlx, 1920, 1080, "Fil de Fer");
-	fdf.img.img = mlx_new_image(fdf.mlx, 1920, 1080);
+	fdf.win = mlx_new_window(fdf.mlx, WIN_WIDTH, WIN_HEIGHT, "Fil de Fer");
+	fdf.img.img = mlx_new_image(fdf.mlx, WIN_WIDTH, WIN_HEIGHT);
 	fdf.img.addr = mlx_get_data_addr(fdf.img.img, &fdf.img.bpp,
 			&fdf.img.line_len, &fdf.img.endian);
 	init_fdf(&fdf);

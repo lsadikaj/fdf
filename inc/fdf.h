@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 11:42:30 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/21 16:20:19 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:45:12 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,59 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <math.h>
-# include <X11/X.h>
-# include <X11/Xlib.h>
-# include <X11/keysym.h>
-# include "mlx.h"
+
+# ifdef __APPLE__
+#  include "../minilibx_mms_20200219/mlx.h"
+# else
+#  include <X11/X.h>
+#  include <X11/Xlib.h>
+#  include <X11/keysym.h>
+#  include "mlx.h"
+# endif
+
 # include "../libft/libft.h"
 # include "../libft/ft_printf/ft_printf.h"
 # include "../libft/get_next_line/get_next_line.h"
+
+/* Key codes - macOS vs Linux */
+# ifdef __APPLE__
+#  define KEY_ESC 53
+#  define KEY_W 13
+#  define KEY_A 0
+#  define KEY_S 1
+#  define KEY_D 2
+#  define KEY_H 4
+#  define KEY_P 35
+#  define KEY_PLUS 24
+#  define KEY_MINUS 27
+#  define KEY_UP 126
+#  define KEY_DOWN 125
+#  define KEY_LEFT 123
+#  define KEY_RIGHT 124
+#  define KEY_SPACE 49
+#  define KEY_PAGEUP 116
+#  define KEY_PAGEDOWN 121
+# else
+#  define KEY_ESC 65307
+#  define KEY_W 119
+#  define KEY_A 97
+#  define KEY_S 115
+#  define KEY_D 100
+#  define KEY_H 104
+#  define KEY_P 112
+#  define KEY_PLUS 65451
+#  define KEY_MINUS 65453
+#  define KEY_UP 65362
+#  define KEY_DOWN 65364
+#  define KEY_LEFT 65361
+#  define KEY_RIGHT 65363
+#  define KEY_SPACE 32
+#  define KEY_PAGEUP 65365
+#  define KEY_PAGEDOWN 65366
+# endif
+
+# define WIN_WIDTH 800
+# define WIN_HEIGHT 600
 
 # define NUM_PALETTES 3
 # define DEFAULT_ALTITUDE_SPHERE 0.2

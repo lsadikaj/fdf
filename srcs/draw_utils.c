@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:36:34 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/18 11:58:15 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:47:39 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	put_pixel(t_fdf *fdf, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x >= 0 && x < 1920 && y >= 0 && y < 1080)
+	if (x >= 0 && x < WIN_WIDTH && y >= 0 && y < WIN_HEIGHT)
 	{
 		dst = fdf->img.addr + (y * fdf->img.line_len + x * (fdf->img.bpp / 8));
 		*(unsigned int *)dst = color;
@@ -30,8 +30,8 @@ void	get_scaled_point(t_fdf *fdf, t_point *p, int x, int y)
 	int		center_y;
 
 	scale = fdf->zoom;
-	center_x = (1920 - 200) / 2;
-	center_y = 1080 / 2;
+	center_x = (WIN_WIDTH - 200) / 2;
+	center_y = WIN_HEIGHT / 2;
 	p->x = (x - fdf->width / 2) * scale;
 	p->y = (y - fdf->height / 2) * scale;
 	p->z *= (scale / 5) * fdf->altitude;

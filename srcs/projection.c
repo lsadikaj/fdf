@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 18:14:08 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/19 14:10:07 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:29:39 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handle_projection(int keysym, t_fdf *fdf)
 
 	prev_altitude = 1.0;
 	prev_zoom = 0;
-	if (keysym == XK_p)
+	if (keysym == KEY_P)
 	{
 		if (fdf->projection_mode == PROJ_ISO)
 		{

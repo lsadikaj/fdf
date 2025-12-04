@@ -6,7 +6,7 @@
 /*   By: lsadikaj <lsadikaj@student.42lausanne.ch>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:49:11 by lsadikaj          #+#    #+#             */
-/*   Updated: 2025/02/21 16:18:44 by lsadikaj         ###   ########.fr       */
+/*   Updated: 2025/12/04 11:27:32 by lsadikaj         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,37 @@
 
 void	handle_movement(int keysym, t_fdf *fdf)
 {
-	if (keysym == XK_Left)
+	if (keysym == KEY_LEFT)
 		fdf->offset_x -= 10;
-	else if (keysym == XK_Right)
+	else if (keysym == KEY_RIGHT)
 		fdf->offset_x += 10;
-	else if (keysym == XK_Up)
+	else if (keysym == KEY_UP)
 		fdf->offset_y -= 10;
-	else if (keysym == XK_Down)
+	else if (keysym == KEY_DOWN)
 		fdf->offset_y += 10;
 	fdf->needs_redraw = 1;
 }
 
 void	handle_transform(int keysym, t_fdf *fdf)
 {
-	if (keysym == XK_plus || keysym == XK_KP_Add)
+	if (keysym == KEY_PLUS)
 		fdf->zoom *= 1.1;
-	else if (keysym == XK_minus || keysym == XK_KP_Subtract)
+	else if (keysym == KEY_MINUS)
 		fdf->zoom /= 1.1;
-	else if (keysym == XK_h)
+	else if (keysym == KEY_H)
 		fdf->hide_lines = !fdf->hide_lines;
 	fdf->needs_redraw = 1;
 }
 
 void	handle_rotation(int keysym, t_fdf *fdf)
 {
-	if (keysym == XK_a)
+	if (keysym == KEY_A)
 		fdf->angle_y -= 0.05;
-	else if (keysym == XK_d)
+	else if (keysym == KEY_D)
 		fdf->angle_y += 0.05;
-	else if (keysym == XK_w)
+	else if (keysym == KEY_W)
 		fdf->angle_x += 0.05;
-	else if (keysym == XK_s)
+	else if (keysym == KEY_S)
 		fdf->angle_x -= 0.05;
 	fdf->needs_redraw = 1;
 }
@@ -56,16 +56,16 @@ void	handle_altitude(int keysym, t_fdf *fdf)
 	step = 0.1;
 	if (fdf->projection_mode == PROJ_SPHERE)
 		step = 0.02;
-	if (keysym == XK_Page_Up)
+	if (keysym == KEY_PAGEUP)
 		fdf->altitude += step;
-	else if (keysym == XK_Page_Down)
+	else if (keysym == KEY_PAGEDOWN)
 		fdf->altitude -= step;
 	fdf->needs_redraw = 1;
 }
 
 void	handle_color_palette(int keysym, t_fdf *fdf)
 {
-	if (keysym == XK_space)
+	if (keysym == KEY_SPACE)
 	{
 		fdf->color_palette = (fdf->color_palette + 1) % NUM_PALETTES;
 		ft_printf("Color palette changed: %d\n", fdf->color_palette);
